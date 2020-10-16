@@ -3,15 +3,16 @@ import * as Express from "express";
 import { buildSchema } from "type-graphql";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
+import { RegisterResolver } from "./modules/user/Register";
 
 const main = async () => {
   await createConnection();
 
-  // const schema = await buildSchema({
-  //   resolvers: [HelloResolver],
-  // });
+  const schema = await buildSchema({
+    resolvers: [RegisterResolver],
+  });
 
-  const apolloServer = new ApolloServer({});
+  const apolloServer = new ApolloServer({ schema });
   const app = Express();
   apolloServer.applyMiddleware({ app });
 
